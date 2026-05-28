@@ -134,7 +134,8 @@ flowchart TD
 
 ## 6. Open items / what's next
 
-- **ATTENDED branch:** waiting on Glofox to confirm and enable `BOOKING_UPDATED` events on the test sub-account, then wire similar logic.
+- **ATTENDED branch:** waiting on Glofox support to enable `BOOKING_UPDATED` webhook events on the test sub-account — emailed already, awaiting response. Once events flow, wire similar logic to BOOKED/CANCELED.
+- **No-show case:** if a member books a first class but neither attends nor cancels, we currently have no signal — Glofox's webhook behaviour for this scenario isn't yet known. Needs a follow-up with Glofox support to ask whether a separate event fires (e.g. on auto-mark-as-missed) or whether we need a scheduled job to sweep for stale BOOKED bookings past their `time_finish`. Worth deciding what GHL action a "no-show" should trigger (likely a re-engagement tag).
 - **Multi-studio consolidation:** once the per-studio approach is proven across a few studios, consider collapsing to a single master workflow with dynamic GHL credential lookup. Saves on maintenance and on Glofox support tickets (one webhook URL handles all studios).
 - **Error handling:** the workflow currently fails silently if a branch ID isn't found in the sheet or if a GHL API call returns an error. Adding an error branch with a Slack/email alert would catch issues earlier.
 - **Cut over from Zapier:** the existing Zapier flow is still receiving Glofox webhooks. When we're ready, Glofox needs to switch the registered URL from the Zapier endpoint to the n8n endpoint, and we pause the corresponding Zaps.
